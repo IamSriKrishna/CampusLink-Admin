@@ -1,4 +1,4 @@
-const StudentModel = require("../Model/Student.js");
+const StudentModel = require("../../Model/Student");
 
 const getUserData = async (req, res) => {
   const user = await StudentModel.findById(req.user);
