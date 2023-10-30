@@ -5,7 +5,7 @@ const moment = require("moment");
 
 // Router
 const FormModel = require("../Model/Form.js");
-const StudentWare = require("../../middleware/StudentWare.js");
+const StudentWare = require("../../middleware/Auth.js");
 
 // INIT
 const FormRouter = express.Router();
@@ -67,8 +67,9 @@ FormRouter.post("/kcg/student/form-upload", async (req, res, next) => {
         );
       }
     );
-  } catch (e) {
-    next(e);
+  } catch (error) {
+    console.error(error); // Log the error for debugging
+    res.status(500).json({ error: "Something went wrong" });
   }
 });
 
@@ -88,8 +89,9 @@ FormRouter.get(
         console.log(form);
         res.json(form);
       }
-    } catch (e) {
-      next(e);
+    } catch (error) {
+      console.error(error); // Log the error for debugging
+      res.status(500).json({ error: "Something went wrong" });
     }
   }
 );
@@ -105,8 +107,9 @@ FormRouter.get("/kcg/student/form", StudentWare, async (req, res, next) => {
       console.log(form);
       res.json(form);
     }
-  } catch (e) {
-    next(e);
+  } catch (error) {
+    console.error(error); // Log the error for debugging
+    res.status(500).json({ error: "Something went wrong" });
   }
 });
 module.exports = FormRouter;

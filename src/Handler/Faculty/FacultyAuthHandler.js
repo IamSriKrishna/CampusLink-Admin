@@ -25,8 +25,9 @@ const facultySignIn = async (req, res, next) => {
       algorithm: "HS256",
     });
     res.json({ token, ...faculty._doc });
-  } catch (e) {
-    next(error);
+  } catch (error) {
+    console.error(error); // Log the error for debugging
+    res.status(500).json({ error: "Something went wrong" });
   }
 };
 

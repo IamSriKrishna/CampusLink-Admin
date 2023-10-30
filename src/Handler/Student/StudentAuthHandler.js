@@ -1,5 +1,7 @@
 const StudentModel = require("../../Model/Student");
 const jwt = require("jsonwebtoken");
+const bcryptjs = require("bcryptjs");
+
 const invalidatedTokens = [];
 
 const studentSignIn = async (req, res, next) => {
@@ -23,8 +25,9 @@ const studentSignIn = async (req, res, next) => {
       algorithm: "HS256",
     });
     res.json({ token, ...student._doc });
-  } catch (e) {
-    next(error);
+  } catch (error) {
+    console.error(error); // Log the error for debugging
+    res.status(500).json({ error: "Something went wrong" });
   }
 };
 
@@ -56,7 +59,8 @@ const StudentSignUp = async (req, res, next) => {
     student = await student.save();
     res.status(200).json({ msg: "Student Account Created" });
   } catch (error) {
-    next(error); // Pass the error to the error handling middleware
+    console.error(error); // Log the error for debugging
+    res.status(500).json({ error: "Something went wrong" });
   }
 };
 

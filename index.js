@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 //package
-const student = require("./src/Router/StudentAuth");
+const student = require("./src/Router/Student/StudentAuthRouter");
 const form = require("./src/Router/FormAuth");
 const hello = require("./src/Router/HelloRouter");
 const faculty = require("./src/Router/Faculty/FacultyAuthRouter");

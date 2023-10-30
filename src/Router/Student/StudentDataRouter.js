@@ -1,9 +1,9 @@
-// //Handlers
-// const { getUserData } = require("../Handler/Student/StudentDataHandler.js");
-// // Router
-// const auth = require("../../middleware/Auth.js");
+//Handlers
+const { getUserData } = require("../../Handler/Student/StudentDataHandler");
+// Router
+const auth = require("../../../middleware/Auth");
 
-// // get user data
-// StudentRouter.get("/", auth, function (req, res) {
-//   getUserData;
-// });
+// get user data
+StudentRouter.get("/", auth, async function (req, res) {
+  await getUserData(req, res);
+});

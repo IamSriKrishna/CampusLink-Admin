@@ -5,7 +5,7 @@ const bcryptjs = require("bcryptjs");
 
 // Router
 const StudentModel = require("../Model/Student.js");
-const auth = require("../../middleware/StudentWare");
+const auth = require("../../middleware/Auth.js");
 
 // INIT
 const StudentRouter = express.Router();
@@ -14,103 +14,6 @@ const invalidatedTokens = [];
 StudentRouter.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ msg: "Something went wrong on the server" });
-});
-
-// Post
-StudentRouter.post("/kcg/student/signup", async (req, res, next) => {
-  try {
-    const { name, rollno, password, dp, department, year } = req.body;
-
-    const existingStudent = await StudentModel.findOne({ rollno });
-
-    if (existingStudent) {
-      return res
-        .status(500)
-        .json({ msg: "Student With Same Roll Number Already Exist!" });
-    }
-
-    if (!name || !rollno || !password || !dp || !department || !year) {
-      return res.status(404).json({ msg: "All fields are mandatory" });
-    }
-
-    const hashedPassword = await bcryptjs.hash(password, 8);
-    let student = new StudentModel({
-      name,
-      rollno,
-      password: hashedPassword,
-      dp,
-      department,
-      year,
-    });
-    student = await student.save();
-    res.status(200).json({ msg: "Student Account Created" });
-  } catch (error) {
-    next(error); // Pass the error to the error handling middleware
-  }
-});
-
-//SignIn
-StudentRouter.post("/kcg/student/signin", async (req, res, next) => {
-  try {
-    const { rollno, password } = req.body;
-
-    const student = await StudentModel.findOne({ rollno });
-    if (!student) {
-      return res
-        .status(400)
-        .json({ msg: "student with this email does not exist!" });
-    }
-
-    const isMatch = await bcryptjs.compare(password, student.password);
-    if (isMatch !== true) {
-      console.log(`${isMatch}\n${student.password}`);
-      return res.status(400).json({ msg: "Incorrect password." });
-    }
-
-    const token = jwt.sign({ id: student._id }, "passwordKey", {
-      algorithm: "HS256",
-    });
-    res.json({ token, ...student._doc });
-  } catch (e) {
-    next(error);
-  }
-});
-// Signout
-StudentRouter.post("/kcg/student/signout", (req, res) => {
-  try {
-    const token = req.header("x-auth-token");
-    if (!token) {
-      return res.status(401).json({ msg: "No token provided" });
-    }
-
-    // Add the token to the blacklist
-    invalidatedTokens.push(token);
-
-    res.json({ msg: "You have been successfully signed out." });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-// Check if token is valid
-StudentRouter.post("/tokenIsValid", async (req, res) => {
-  try {
-    const token = req.header("x-auth-token");
-    if (!token) return res.json(false);
-
-    // Check if the token is in the blacklist
-    if (invalidatedTokens.includes(token)) {
-      return res.json(false);
-    }
-
-    const verified = jwt.verify(token, "passwordKey");
-    if (!verified) return res.json(false);
-
-    const user = await StudentModel.findById(verified.id);
-    if (!user) return res.json(false);
-    res.json(true);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
 });
 
 // get user data
