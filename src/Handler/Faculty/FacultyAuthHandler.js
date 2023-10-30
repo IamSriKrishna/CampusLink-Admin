@@ -30,7 +30,7 @@ const facultySignIn = async (req, res, next) => {
 
 const FacultySignUp = async (req, res, next) => {
   try {
-    const { name, rollno, password, dp, department, year } = req.body;
+    const { name, password, dp, department, classTeacher, role } = req.body;
 
     const existingFaculty = await FacultyModel.findOne({ rollno });
 
@@ -40,18 +40,18 @@ const FacultySignUp = async (req, res, next) => {
         .json({ msg: "Faculty With Same Roll Number Already Exist!" });
     }
 
-    if (!name || !rollno || !password || !dp || !department || !year) {
+    if (!name || !password || !dp || !department || !classTeacher || !role) {
       return res.status(404).json({ msg: "All fields are mandatory" });
     }
 
     const hashedPassword = await bcryptjs.hash(password, 8);
     let faculty = new FacultyModel({
       name,
-      rollno,
       password: hashedPassword,
       dp,
       department,
-      year,
+      classTeacher,
+      role,
     });
     faculty = await faculty.save();
     res.status(200).json({ msg: "Faculty Account Created" });
