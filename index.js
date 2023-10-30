@@ -4,9 +4,10 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 //package
-const student = require("./Router/StudentAuth");
-const form = require("./Router/FormAuth");
-const hello = require("./Router/HelloRouter");
+const student = require("./src/Router/StudentAuth");
+const form = require("./src/Router/FormAuth");
+const hello = require("./src/Router/HelloRouter");
+const faculty = require("./src/Router/Faculty/FacultyAuthRouter");
 // middlewares
 
 const app = express();
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(student);
 app.use(form);
 app.use(hello);
+app.use(faculty);
 
 //connecting to the database
 mongoose
