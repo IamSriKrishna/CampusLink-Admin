@@ -6,6 +6,11 @@ const facultySchema = mongoose.Schema({
     type: String,
     trim: true,
   },
+  email: {
+    required: true,
+    type: String,
+    trim: true,
+  },
   password: {
     required: true,
     type: String,

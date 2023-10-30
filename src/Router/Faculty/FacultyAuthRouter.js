@@ -19,8 +19,8 @@ FacultyRouter.use((err, req, res, next) => {
 });
 
 //signup endpoint
-FacultyRouter.post("/kcg/faculty/signup", function (req, res) {
-  facultySignUp;
+FacultyRouter.post("/kcg/faculty/signup", async function (req, res) {
+  await facultySignUp(req, res);
 });
 //Signin endpoint
 FacultyRouter.post("/kcg/faculty/signin", function (req, res) {

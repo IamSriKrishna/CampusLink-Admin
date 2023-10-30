@@ -1,5 +1,7 @@
 const FacultyModel = require("../../Model/Faculty");
 const jwt = require("jsonwebtoken");
+const bcryptjs = require("bcryptjs");
+
 const invalidatedTokens = [];
 
 const facultySignIn = async (req, res, next) => {
@@ -28,16 +30,18 @@ const facultySignIn = async (req, res, next) => {
   }
 };
 
-const FacultySignUp = async (req, res, next) => {
+const facultySignUp = async (req, res, next) => {
   try {
-    const { name, password, dp, department, classTeacher, role } = req.body;
+    // return res.json({ msg: "Hello " });
+    const { name, password, dp, department, classTeacher, role, email } =
+      req.body;
 
-    const existingFaculty = await FacultyModel.findOne({ rollno });
+    const existingFaculty = await FacultyModel.findOne({ email });
 
     if (existingFaculty) {
       return res
         .status(500)
-        .json({ msg: "Faculty With Same Roll Number Already Exist!" });
+        .json({ msg: "Faculty With Same Email Already Exist!" });
     }
 
     if (!name || !password || !dp || !department || !classTeacher || !role) {
@@ -52,11 +56,13 @@ const FacultySignUp = async (req, res, next) => {
       department,
       classTeacher,
       role,
+      email,
     });
     faculty = await faculty.save();
     res.status(200).json({ msg: "Faculty Account Created" });
   } catch (error) {
-    next(error); // Pass the error to the error handling middleware
+    console.error(error); // Log the error for debugging
+    res.status(500).json({ error: "Something went wrong" });
   }
 };
 
@@ -97,4 +103,4 @@ TokenValid = async (req, res) => {
   }
 };
 
-module.exports = { facultySignIn, FacultySignUp, FacultySignOut, TokenValid };
+module.exports = { facultySignIn, facultySignUp, FacultySignOut, TokenValid };
