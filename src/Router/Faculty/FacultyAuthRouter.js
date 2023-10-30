@@ -23,16 +23,16 @@ FacultyRouter.post("/kcg/faculty/signup", async function (req, res) {
   await facultySignUp(req, res);
 });
 //Signin endpoint
-FacultyRouter.post("/kcg/faculty/signin", function (req, res) {
-  facultySignIn;
+FacultyRouter.post("/kcg/faculty/signin", async function (req, res) {
+  await facultySignIn(req, res);
 });
 // Signout endpoint
-FacultyRouter.post("/kcg/faculty/signout", function (req, res) {
-  facultySignOut;
+FacultyRouter.post("/kcg/faculty/signout", async function (req, res) {
+  await facultySignOut(req, res);
 });
 // Token validation endpoint
-FacultyRouter.post("/tokenIsValid", function (req, res) {
-  TokenValid;
+FacultyRouter.post("/tokenIsValid", async function (req, res) {
+  await TokenValid(req, res);
 });
 
 module.exports = FacultyRouter;

@@ -6,9 +6,9 @@ const invalidatedTokens = [];
 
 const facultySignIn = async (req, res, next) => {
   try {
-    const { rollno, password } = req.body;
+    const { email, password } = req.body;
 
-    const faculty = await FacultyModel.findOne({ rollno });
+    const faculty = await FacultyModel.findOne({ email });
     if (!faculty) {
       return res
         .status(400)
