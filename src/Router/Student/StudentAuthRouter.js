@@ -19,20 +19,20 @@ StudentRouter.use((err, req, res, next) => {
 });
 
 //signup endpoint
-StudentRouter.post("/kcg/student/signup", function (req, res) {
-  studentSignUp;
+StudentRouter.post("/kcg/student/signup", async function (req, res) {
+  await studentSignUp(req, res);
 });
 //Signin endpoint
-StudentRouter.post("/kcg/student/signin", function (req, res) {
-  studentSignIn;
+StudentRouter.post("/kcg/student/signin", async function (req, res) {
+  await studentSignIn(req, res);
 });
 // Signout endpoint
-StudentRouter.post("/kcg/student/signout", function (req, res) {
-  studentSignOut;
+StudentRouter.post("/kcg/student/signout", async function (req, res) {
+  await studentSignOut(req, res);
 });
 // Token validation endpoint
-StudentRouter.post("/tokenIsValid", function (req, res) {
-  TokenValid;
+StudentRouter.post("/tokenIsValid", async function (req, res) {
+  await TokenValid(req, res);
 });
 
 module.exports = StudentRouter;
