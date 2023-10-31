@@ -115,16 +115,15 @@ FormRouter.get("/kcg/student/form", async (req, res, next) => {
 
 //Update Student Form
 FormRouter.put("/kcg/student/form/:id/update-form", async (req, res) => {
-  const FormId = req.params.id;
-  const { response } = req.body;
-  if (!FormId) {
-    res.status(400).json({ msg: "Bad Request! Provide Form ID" });
-  }
-  if (!req.body.response) {
-    res.status(400).json({ msg: "Bad Request! required key 'response'" });
-  }
-  console.log(response);
   try {
+    const FormId = req.params.id;
+    const { response } = req.body;
+    if (!FormId) {
+      res.status(400).json({ msg: "Bad Request! Provide Form ID" });
+    }
+    if (!req.body.response) {
+      res.status(400).json({ msg: "Bad Request! required key 'response'" });
+    }
     const form = await FormModel.findById(FormId);
 
     if (!form) {
