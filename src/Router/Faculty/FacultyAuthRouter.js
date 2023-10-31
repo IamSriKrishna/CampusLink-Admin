@@ -31,7 +31,7 @@ FacultyRouter.post("/kcg/faculty/signout", async function (req, res) {
   await facultySignOut(req, res);
 });
 // Token validation endpoint
-FacultyRouter.post("/tokenIsValid", async function (req, res) {
+FacultyRouter.post("/kcg/faculty/tokenIsValid", async function (req, res) {
   await TokenValid(req, res);
 });
 
