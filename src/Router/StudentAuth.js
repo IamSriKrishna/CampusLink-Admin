@@ -25,7 +25,7 @@ StudentRouter.get("/", auth, async (req, res) => {
 //Update Credit
 StudentRouter.put("/students/:id/update-credit", async (req, res) => {
   const studentId = req.params.id;
-  const { amountToDeduct } = req.body;
+  const { credit } = req.body;
 
   try {
     const student = await StudentModel.findById(studentId);
@@ -34,7 +34,7 @@ StudentRouter.put("/students/:id/update-credit", async (req, res) => {
       return res.status(404).json({ error: "Student not found" });
     }
 
-    student.credit -= amountToDeduct;
+    student.credit -= credit;
     await student.save();
 
     res.json({
@@ -42,6 +42,7 @@ StudentRouter.put("/students/:id/update-credit", async (req, res) => {
       updatedStudent: student,
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
@@ -66,6 +67,7 @@ StudentRouter.put("/students/:id/update-credit-zero", async (req, res) => {
       updatedStudent: student,
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
