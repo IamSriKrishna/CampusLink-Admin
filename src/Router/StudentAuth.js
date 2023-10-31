@@ -1,6 +1,5 @@
 // Packages
 const express = require("express");
-const jwt = require("jsonwebtoken");
 const bcryptjs = require("bcryptjs");
 
 // Router
@@ -9,7 +8,7 @@ const auth = require("../../middleware/Auth.js");
 
 // INIT
 const StudentRouter = express.Router();
-const invalidatedTokens = [];
+
 // Error Handling Middleware
 StudentRouter.use((err, req, res, next) => {
   console.error(err.stack);
