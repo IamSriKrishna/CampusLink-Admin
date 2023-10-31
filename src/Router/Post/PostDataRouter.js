@@ -4,6 +4,8 @@ const {
   getPostData,
   createPostData,
   getPostDatabyId,
+  updatePostDataById,
+  deletePostDataById,
 } = require("../../Handler/Post/PostDataHandler");
 
 const auth = require("../../../middleware/Auth");
@@ -29,5 +31,14 @@ PostRouter.post(
     await createPostData(req, res);
   }
 );
+
+PostRouter.put("/post/updatePostDataById/:id", auth, async function (req, res) {
+  await updatePostDataById(req, res);
+});
+
+// DELETE endpoint to delete a post by ID
+PostRouter.delete("/post/delete/:id", auth, async function (req, res) {
+  await deletePostDataById(req, res);
+});
 
 module.exports = PostRouter;

@@ -48,7 +48,7 @@ const getPostDatabyId = async (req, res, next) => {
     const post = await PostModel.findById(id);
 
     if (!post) {
-      console.log("Post not found");
+      return res.json({ msg: "Post not found" });
     } else {
       res.json(post);
     }
@@ -57,8 +57,50 @@ const getPostDatabyId = async (req, res, next) => {
     res.status(500).json({ error: "Something went wrong" });
   }
 };
+
+const updatePostDataById = async (req, res) => {
+  const postId = req.params.id; // Get the post ID from the URL
+  const updateData = req.body; // Data to update the post
+
+  try {
+    // Find the post by ID and update it
+    const updatedPost = await PostModel.findByIdAndUpdate(postId, updateData, {
+      new: true,
+    });
+
+    if (!updatedPost) {
+      return res.status(404).json({ msg: "Post not found" });
+    }
+
+    res.json({ data: updatedPost, msg: "Post updated successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Something went wrong" });
+  }
+};
+
+const deletePostDataById = async (req, res) => {
+  const postId = req.params.id; // Get the post ID from the URL
+
+  try {
+    // Find the post by ID and remove it
+    const deletedPost = await PostModel.findByIdAndRemove(postId);
+
+    if (!deletedPost) {
+      return res.status(404).json({ msg: "Post not found" });
+    }
+
+    res.json({ data: deletedPost, msg: "Post deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Something went wrong" });
+  }
+};
+
 module.exports = {
   getPostDatabyId,
   getPostData,
   createPostData,
+  updatePostDataById,
+  deletePostDataById,
 };
