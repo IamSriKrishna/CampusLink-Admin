@@ -12,7 +12,7 @@ const studentSignIn = async (req, res, next) => {
     if (!student) {
       return res
         .status(400)
-        .json({ msg: "student with this email does not exist!" });
+        .json({ msg: "student with this register no does not exist!" });
     }
 
     const isMatch = await bcryptjs.compare(password, student.password);

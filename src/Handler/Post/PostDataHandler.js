@@ -2,8 +2,7 @@ const PostModel = require("../../Model/Post");
 
 const getPostData = async (req, res) => {
   try {
-    const user = await PostModel.find(req.user);
-
+    const user = await PostModel.find();
     if (user.length === 0) {
       return res.status(404).json({ msg: "No Post data exist!" });
     }
@@ -43,7 +42,23 @@ const createPostData = async (req, res) => {
   }
 };
 
+const getPostDatabyId = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const post = await PostModel.findById(id);
+
+    if (!post) {
+      console.log("Post not found");
+    } else {
+      res.json(post);
+    }
+  } catch (error) {
+    console.error(error); // Log the error for debugging
+    res.status(500).json({ error: "Something went wrong" });
+  }
+};
 module.exports = {
+  getPostDatabyId,
   getPostData,
   createPostData,
 };
