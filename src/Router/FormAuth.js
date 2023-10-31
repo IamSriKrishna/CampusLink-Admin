@@ -1,14 +1,15 @@
 // Packages
+
 const express = require("express");
 const schedule = require("node-schedule");
 const moment = require("moment");
-
 // Router
 const FormModel = require("../Model/Form");
 const StudentWare = require("../../middleware/Auth.js");
 
 // INIT
 const FormRouter = express.Router();
+
 
 // Error Handling Middleware
 FormRouter.use((err, req, res, next) => {
@@ -96,6 +97,7 @@ FormRouter.get(
   }
 );
 
+
 // Get all student form
 FormRouter.get("/kcg/student/form", async (req, res, next) => {
   try {
@@ -117,12 +119,13 @@ FormRouter.get("/kcg/student/form", async (req, res, next) => {
 FormRouter.put("/kcg/student/form/:studentid/update-form", async (req, res) => {
   try {
     const FormId = req.params.studentid;
-    const { response } = req.body;
+    const { response } = req.body; // Get the registration token from the request body
+
     if (!FormId) {
       res.status(400).json({ msg: "Bad Request! Provide Form ID" });
     }
-    if (!req.body.response) {
-      res.status(400).json({ msg: "Bad Request! required key 'response'" });
+    if (!response) {
+      res.status(400).json({ msg: "Bad Request! Required key 'response'" });
     }
     const form = await FormModel.findById(FormId);
 
@@ -130,17 +133,20 @@ FormRouter.put("/kcg/student/form/:studentid/update-form", async (req, res) => {
       return res.status(404).json({ msg: "Form not found" });
     }
 
-    form.response = response; //Updates response
+    form.response = response;
     await form.save();
+
 
     res.json({
       message: "Response updated successfully",
       updatedForm: form,
     });
   } catch (error) {
-    console.error(error);
+    console.error('notification'+error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+
 
 module.exports = FormRouter;
