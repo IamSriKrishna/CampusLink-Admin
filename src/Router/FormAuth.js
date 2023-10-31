@@ -32,7 +32,7 @@ FormRouter.post("/kcg/student/form-upload", async (req, res, next) => {
       no_of_days,
       from,
       to,
-      id,
+      studentid,
       spent,
     } = req.body;
 
@@ -49,7 +49,7 @@ FormRouter.post("/kcg/student/form-upload", async (req, res, next) => {
       no_of_days,
       from,
       to,
-      id,
+      studentid,
       spent,
     });
     form = await form.save();
@@ -114,9 +114,9 @@ FormRouter.get("/kcg/student/form", async (req, res, next) => {
 });
 
 //Update Student Form
-FormRouter.put("/kcg/student/form/:id/update-form", async (req, res) => {
+FormRouter.put("/kcg/student/form/:studentid/update-form", async (req, res) => {
   try {
-    const FormId = req.params.id;
+    const FormId = req.params.studentid;
     const { response } = req.body;
     if (!FormId) {
       res.status(400).json({ msg: "Bad Request! Provide Form ID" });
