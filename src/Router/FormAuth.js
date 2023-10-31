@@ -10,7 +10,6 @@ const StudentWare = require("../../middleware/Auth.js");
 // INIT
 const FormRouter = express.Router();
 
-
 // Error Handling Middleware
 FormRouter.use((err, req, res, next) => {
   console.error(err.stack);
@@ -35,6 +34,7 @@ FormRouter.post("/kcg/student/form-upload", async (req, res, next) => {
       to,
       studentid,
       spent,
+      fcmtoken,
     } = req.body;
 
     let form = new FormModel({
@@ -52,6 +52,7 @@ FormRouter.post("/kcg/student/form-upload", async (req, res, next) => {
       to,
       studentid,
       spent,
+      fcmtoken,
     });
     form = await form.save();
 
@@ -97,7 +98,6 @@ FormRouter.get(
   }
 );
 
-
 // Get all student form
 FormRouter.get("/kcg/student/form", async (req, res, next) => {
   try {
@@ -136,17 +136,14 @@ FormRouter.put("/kcg/student/form/:studentid/update-form", async (req, res) => {
     form.response = response;
     await form.save();
 
-
     res.json({
       message: "Response updated successfully",
       updatedForm: form,
     });
   } catch (error) {
-    console.error('notification'+error);
+    console.error("notification" + error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
-
-
 
 module.exports = FormRouter;

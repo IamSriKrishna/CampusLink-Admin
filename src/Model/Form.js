@@ -66,6 +66,11 @@ const formSchema = mongoose.Schema({
     type: String,
     default: "Requested",
   },
+  fcmtoken: {
+    required: true,
+    type: String,
+    default: "",
+  },
 });
 
 const Form = mongoose.model("Form", formSchema);
