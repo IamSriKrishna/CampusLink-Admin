@@ -96,8 +96,8 @@ FormRouter.get(
   }
 );
 
-// Get a particular student form by rollno
-FormRouter.get("/kcg/student/form", StudentWare, async (req, res, next) => {
+// Get all student form
+FormRouter.get("/kcg/student/form", async (req, res, next) => {
   try {
     const form = await FormModel.find({});
 
