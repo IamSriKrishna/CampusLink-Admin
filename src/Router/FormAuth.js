@@ -114,25 +114,32 @@ FormRouter.get("/kcg/student/form", async (req, res, next) => {
 });
 
 //Update Student Form
-FormRouter.put("/kcg/student/form/:id/update-credit", async (req, res) => {
+FormRouter.put("/kcg/student/form/:id/update-form", async (req, res) => {
   const FormId = req.params.id;
   const { response } = req.body;
+  if (!FormId) {
+    res.status(400).json({ msg: "Bad Request! Provide Form ID" });
+  }
+  if (!req.body.response) {
+    res.status(400).json({ msg: "Bad Request! required key 'response'" });
+  }
   console.log(response);
   try {
     const form = await FormModel.findById(FormId);
 
     if (!form) {
-      return res.status(404).json({ error: "Form not found" });
+      return res.status(404).json({ msg: "Form not found" });
     }
 
     form.response = response; //Updates response
-    await response.save();
+    await form.save();
 
     res.json({
       message: "Response updated successfully",
       updatedForm: form,
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
