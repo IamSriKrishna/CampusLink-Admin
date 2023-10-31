@@ -3,7 +3,7 @@ const FacultyModel = require("../../Model/Faculty");
 const getFacultyData = async (req, res) => {
   try {
     const faculty = await FacultyModel.findById(req.faculty);
-    console.log(faculty);
+    console.log("GetFaculty data:" + faculty);
     if (!faculty) {
       return res.status(400).json({ msg: "No Faculty data exist!" });
     }

@@ -5,9 +5,8 @@ const {
   studentSignIn,
   studentSignUp,
   studentSignOut,
+  TokenValid,
 } = require("../../Handler/Student/StudentAuthHandler");
-
-const TokenValid = require("../../Handler/Student/StudentAuthHandler");
 
 // INIT
 const StudentRouter = express.Router();
