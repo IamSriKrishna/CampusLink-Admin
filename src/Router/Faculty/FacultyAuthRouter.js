@@ -5,9 +5,8 @@ const {
   facultySignIn,
   facultySignUp,
   facultySignOut,
+  TokenValid,
 } = require("../../Handler/Faculty/FacultyAuthHandler");
-
-const TokenValid = require("../../Handler/Faculty/FacultyAuthHandler");
 
 // INIT
 const FacultyRouter = express.Router();

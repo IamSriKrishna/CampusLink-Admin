@@ -86,18 +86,22 @@ const FacultySignOut = (req, res) => {
 TokenValid = async (req, res) => {
   try {
     const token = req.header("x-auth-token");
-    if (!token) return res.json(false);
+    if (!token) return res.json({ msg: "Token is not provoded" });
 
-    // Check if the token is in the blacklist
-    if (invalidatedTokens.includes(token)) {
+    // // Check if the token is in the blacklist
+    // if (invalidatedTokens.includes(token)) {
+    //   return res.json(false);
+    // }
+
+    const verified = jwt.verify(token, "passwordKey");
+    if (!verified) {
       return res.json(false);
     }
 
-    const verified = jwt.verify(token, "passwordKey");
-    if (!verified) return res.json(false);
-
     const user = await FacultyModel.findById(verified.id);
-    if (!user) return res.json(false);
+    if (!user) {
+      return res.json(false);
+    }
     res.json(true);
   } catch (error) {
     res.status(500).json({ error: error.message });
