@@ -9,6 +9,7 @@ const studentData = require("./src/Router/Student/StudentDataRouter");
 const form = require("./src/Router/FormAuth");
 const hello = require("./src/Router/HelloRouter");
 const faculty = require("./src/Router/Faculty/FacultyAuthRouter");
+const facultyData = require("./src/Router/Faculty/FacultyDataRouter");
 // middlewares
 
 const app = express();
@@ -20,6 +21,7 @@ app.use(studentData);
 app.use(form);
 app.use(hello);
 app.use(faculty);
+app.use(facultyData);
 
 //connecting to the database
 mongoose

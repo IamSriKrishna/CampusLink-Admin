@@ -31,7 +31,7 @@ const studentSignIn = async (req, res, next) => {
   }
 };
 
-const StudentSignUp = async (req, res, next) => {
+const studentSignUp = async (req, res, next) => {
   try {
     const { name, rollno, password, dp, department, year } = req.body;
 
@@ -101,4 +101,4 @@ TokenValid = async (req, res) => {
   }
 };
 
-module.exports = { studentSignIn, StudentSignUp, StudentSignOut, TokenValid };
+module.exports = { studentSignIn, studentSignUp, StudentSignOut, TokenValid };
