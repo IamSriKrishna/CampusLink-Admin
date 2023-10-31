@@ -42,7 +42,7 @@ StudentRouter.put("/students/:id/update-credit", async (req, res) => {
       updatedStudent: student,
     });
   } catch (error) {
-    console.error(error);
+    console.log(error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
