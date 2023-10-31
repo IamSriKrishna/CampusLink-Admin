@@ -4,7 +4,7 @@ const schedule = require("node-schedule");
 const moment = require("moment");
 
 // Router
-const FormModel = require("../Model/Form.js");
+const FormModel = require("../Model/Form");
 const StudentWare = require("../../middleware/Auth.js");
 
 // INIT
@@ -112,4 +112,29 @@ FormRouter.get("/kcg/student/form", async (req, res, next) => {
     res.status(500).json({ error: "Something went wrong" });
   }
 });
+
+//Update Student Form
+FormRouter.put("/kcg/student/form/:id/update-credit", async (req, res) => {
+  const FormId = req.params.id;
+  const { response } = req.body;
+  console.log(response);
+  try {
+    const form = await FormModel.findById(FormId);
+
+    if (!form) {
+      return res.status(404).json({ error: "Form not found" });
+    }
+
+    form.response = response; //Updates response
+    await response.save();
+
+    res.json({
+      message: "Response updated successfully",
+      updatedForm: form,
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 module.exports = FormRouter;
