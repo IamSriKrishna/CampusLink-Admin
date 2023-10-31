@@ -7,6 +7,7 @@ require("dotenv").config();
 const student = require("./src/Router/Student/StudentAuthRouter");
 const studentRouter = require("./src/Router/StudentAuth");
 const studentData = require("./src/Router/Student/StudentDataRouter");
+const PostDataRouter = require("./src/Router/Post/PostDataRouter");
 const form = require("./src/Router/FormAuth");
 const hello = require("./src/Router/HelloRouter");
 const faculty = require("./src/Router/Faculty/FacultyAuthRouter");
@@ -24,6 +25,7 @@ app.use(hello);
 app.use(faculty);
 app.use(facultyData);
 app.use(studentRouter);
+app.use(PostDataRouter);
 
 //connecting to the database
 mongoose
