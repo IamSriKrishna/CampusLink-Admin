@@ -10,7 +10,6 @@ const StudentWare = require("../../middleware/Auth.js");
 // INIT
 const FormRouter = express.Router();
 
-
 // Error Handling Middleware
 FormRouter.use((err, req, res, next) => {
   console.error(err.stack);
@@ -35,7 +34,7 @@ FormRouter.post("/kcg/student/form-upload", async (req, res, next) => {
       to,
       studentid,
       spent,
-      fcmtoken
+      fcmtoken,
     } = req.body;
 
     let form = new FormModel({
@@ -53,7 +52,7 @@ FormRouter.post("/kcg/student/form-upload", async (req, res, next) => {
       to,
       studentid,
       spent,
-      fcmtoken
+      fcmtoken,
     });
     form = await form.save();
 
@@ -61,7 +60,7 @@ FormRouter.post("/kcg/student/form-upload", async (req, res, next) => {
     res.status(200).json({ msg: "Form Uploaded Successfully" });
 
     const deleteJob = schedule.scheduleJob(
-      moment().add(5, "minutes").toDate(),
+      moment().add(5, "days").toDate(),
       async () => {
         // Delete the form data here
         await FormModel.findByIdAndRemove(form._id); // Assuming you have an _id field in your model
@@ -98,7 +97,6 @@ FormRouter.get(
     }
   }
 );
-
 
 // Get all student form
 FormRouter.get("/kcg/student/form", async (req, res, next) => {
@@ -138,17 +136,14 @@ FormRouter.put("/kcg/student/form/:studentid/update-form", async (req, res) => {
     form.response = response;
     await form.save();
 
-
     res.json({
       message: "Response updated successfully",
       updatedForm: form,
     });
   } catch (error) {
-    console.error('notification'+error);
+    console.error("notification" + error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
-
-
 
 module.exports = FormRouter;
