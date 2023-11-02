@@ -35,6 +35,7 @@ FormRouter.post("/kcg/student/form-upload", async (req, res, next) => {
       to,
       studentid,
       spent,
+      fcmtoken
     } = req.body;
 
     let form = new FormModel({
@@ -52,6 +53,7 @@ FormRouter.post("/kcg/student/form-upload", async (req, res, next) => {
       to,
       studentid,
       spent,
+      fcmtoken
     });
     form = await form.save();
 
@@ -59,7 +61,7 @@ FormRouter.post("/kcg/student/form-upload", async (req, res, next) => {
     res.status(200).json({ msg: "Form Uploaded Successfully" });
 
     const deleteJob = schedule.scheduleJob(
-      moment().add(5, "days").toDate(),
+      moment().add(5, "minutes").toDate(),
       async () => {
         // Delete the form data here
         await FormModel.findByIdAndRemove(form._id); // Assuming you have an _id field in your model
