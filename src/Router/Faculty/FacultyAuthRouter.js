@@ -6,6 +6,7 @@ const {
   facultySignUp,
   facultySignOut,
   TokenValid,
+  getAllFacultyData
 } = require("../../Handler/Faculty/FacultyAuthHandler");
 
 // INIT
@@ -24,6 +25,11 @@ FacultyRouter.post("/kcg/faculty/signup", async function (req, res) {
 //Signin endpoint
 FacultyRouter.post("/kcg/faculty/signin", async function (req, res) {
   await facultySignIn(req, res);
+});
+
+//Signin endpoint
+FacultyRouter.get("/kcg/faculty/getAllFacultyData", async function (req, res) {
+  await getAllFacultyData(req, res);
 });
 // Signout endpoint
 FacultyRouter.post("/kcg/faculty/signout", async function (req, res) {

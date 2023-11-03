@@ -28,6 +28,10 @@ const facultySchema = mongoose.Schema({
     type: String,
     default: "--",
   },
+  fcmtoken:{
+    type:String,
+    required:true,
+  },
   role: {
     type: String,
     default: "--",

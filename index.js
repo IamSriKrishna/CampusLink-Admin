@@ -45,7 +45,7 @@ admin.initializeApp({
 });
 
 app.post("/send-notification", (req, res) => {
-  const { registrationToken, body ,sound} = req.body;
+  const { registrationToken, body} = req.body;
   const message = {
     notification: {
       title: "CAMPUSLINK",
@@ -66,6 +66,45 @@ app.post("/send-notification", (req, res) => {
       res.status(500).send("Error sending notification");
     });
 });
+
+app.post("/send-notification-toAll", (req, res) => {
+  const { registrationTokens, body } = req.body;
+
+  const sendNotificationToToken = async (token) => {
+    const message = {
+      notification: {
+        title: "CAMPUSLINK",
+        body: body,
+      },
+      token: token,
+    };
+
+    try {
+      const response = await admin.messaging().send(message);
+      console.log(`Successfully sent message to ${token}`);
+      return response;
+    } catch (error) {
+      console.error(`Error sending message to ${token}:`, error);
+      return null;
+    }
+  };
+
+  const sendAllNotifications = async () => {
+    const responses = await Promise.all(
+      registrationTokens.map((token) => sendNotificationToToken(token))
+    );
+
+    const successResponses = responses.filter((response) => response !== null);
+    const failureCount = registrationTokens.length - successResponses.length;
+
+    console.log(`Successfully sent ${successResponses.length} messages`);
+    console.log(`Failed to send ${failureCount} messages`);
+    res.send(`Successfully sent ${successResponses.length} messages`);
+  };
+
+  sendAllNotifications();
+});
+
 //Connecting to the port
 app.listen(process.env.PORT, "0.0.0.0", () => {
   console.log(`Successfully Connected to the Port: ${process.env.PORT}`);

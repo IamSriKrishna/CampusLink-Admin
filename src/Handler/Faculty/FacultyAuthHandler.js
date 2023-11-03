@@ -34,7 +34,7 @@ const facultySignIn = async (req, res, next) => {
 const facultySignUp = async (req, res, next) => {
   try {
     // return res.json({ msg: "Hello " });
-    const { name, password, dp, department, classTeacher, role, email } =
+    const { name, password, dp, department, classTeacher, role, email, fcmtoken} =
       req.body;
 
     const existingFaculty = await FacultyModel.findOne({ email });
@@ -45,7 +45,7 @@ const facultySignUp = async (req, res, next) => {
         .json({ msg: "Faculty With Same Email Already Exist!" });
     }
 
-    if (!name || !password || !dp || !department || !classTeacher || !role) {
+    if (!name || !password || !dp || !department || !classTeacher || !role|| !fcmtoken) {
       return res.status(404).json({ msg: "All fields are mandatory" });
     }
 
@@ -58,6 +58,7 @@ const facultySignUp = async (req, res, next) => {
       classTeacher,
       role,
       email,
+      fcmtoken
     });
     faculty = await faculty.save();
     res.status(200).json({ msg: "Faculty Account Created" });
@@ -82,6 +83,20 @@ const FacultySignOut = (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+const getAllFacultyData = async(req,res)=>{
+  try{
+    const form = await FacultyModel.find({});
+    if (!form) {
+      console.log("Form not found");
+    } else {
+      console.log(form);
+      res.json(form);
+    }
+  }catch(error){
+    res.status(500).json({ error: error.message });
+  }
+}
 
 TokenValid = async (req, res) => {
   try {
@@ -108,4 +123,4 @@ TokenValid = async (req, res) => {
   }
 };
 
-module.exports = { facultySignIn, facultySignUp, FacultySignOut, TokenValid };
+module.exports = { facultySignIn, facultySignUp, FacultySignOut, TokenValid ,getAllFacultyData};
