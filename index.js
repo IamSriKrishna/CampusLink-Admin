@@ -50,7 +50,6 @@ app.post("/send-notification", (req, res) => {
     notification: {
       title: "CAMPUSLINK",
       body: body,
-      sound: sound,
     },
     token: registrationToken,
   };
