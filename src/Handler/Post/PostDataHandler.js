@@ -3,10 +3,6 @@ const PostModel = require("../../Model/Post");
 const getPostData = async (req, res) => {
   try {
     const form = await PostModel.find();
-    if (FormData.length === 0) {
-      return res.status(404).json({ msg: "No Post data exist!" });
-    }
-
     if (!form) {
       console.log("Form not found");
     } else {
