@@ -6,6 +6,7 @@ const {
   studentSignUp,
   studentSignOut,
   TokenValid,
+  UpdateFcmToken
 } = require("../../Handler/Student/StudentAuthHandler");
 
 // INIT
@@ -32,6 +33,10 @@ StudentRouter.post("/kcg/student/signout", async function (req, res) {
 // Token validation endpoint
 StudentRouter.post("/tokenIsValid", async function (req, res) {
   await TokenValid(req, res);
+});
+// Update FCM Token
+StudentRouter.put("/kcg/student/form/:id", async function (req, res) {
+  await UpdateFcmToken(req, res);
 });
 
 module.exports = StudentRouter;

@@ -123,4 +123,30 @@ TokenValid = async (req, res) => {
   }
 };
 
-module.exports = { facultySignIn, facultySignUp, FacultySignOut, TokenValid ,getAllFacultyData};
+//Update FCMTOKEN
+const UpdateFcmToken = async (req, res) => {
+  const facultyId = req.params.id;
+  const { fcmtoken } = req.body;
+
+  try {
+    const faculty = await FacultyModel.findById(facultyId);
+
+    if (!faculty) {
+      return res.status(404).json({ error: "faculty not found" });
+    }
+
+    faculty.fcmtoken = fcmtoken;
+    await faculty.save();
+
+
+    res.json({
+      message: "FCMToken updated successfully",
+      updatedStudent: faculty,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = { facultySignIn, facultySignUp, FacultySignOut, TokenValid ,getAllFacultyData,UpdateFcmToken};

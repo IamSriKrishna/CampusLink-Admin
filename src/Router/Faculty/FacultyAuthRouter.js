@@ -6,7 +6,8 @@ const {
   facultySignUp,
   facultySignOut,
   TokenValid,
-  getAllFacultyData
+  getAllFacultyData,
+  UpdateFcmToken
 } = require("../../Handler/Faculty/FacultyAuthHandler");
 
 // INIT
@@ -39,5 +40,8 @@ FacultyRouter.post("/kcg/faculty/signout", async function (req, res) {
 FacultyRouter.post("/kcg/faculty/tokenIsValid", async function (req, res) {
   await TokenValid(req, res);
 });
-
+// Update FCM Token
+FacultyRouter.put("/kcg/faculty/form/:id", async function (req, res) {
+  await UpdateFcmToken(req, res);
+});
 module.exports = FacultyRouter;
