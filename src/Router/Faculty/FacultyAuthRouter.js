@@ -41,7 +41,7 @@ FacultyRouter.post("/kcg/faculty/tokenIsValid", async function (req, res) {
   await TokenValid(req, res);
 });
 // Update FCM Token
-FacultyRouter.put("/kcg/faculty/form/:id", async function (req, res) {
+FacultyRouter.put("/kcg/faculty/fcm-token/:id", async function (req, res) {
   await UpdateFcmToken(req, res);
 });
 module.exports = FacultyRouter;

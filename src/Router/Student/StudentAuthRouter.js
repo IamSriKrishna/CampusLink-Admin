@@ -35,7 +35,7 @@ StudentRouter.post("/tokenIsValid", async function (req, res) {
   await TokenValid(req, res);
 });
 // Update FCM Token
-StudentRouter.put("/kcg/student/form/:id", async function (req, res) {
+StudentRouter.put("/kcg/student/fcm-token/:id", async function (req, res) {
   await UpdateFcmToken(req, res);
 });
 
