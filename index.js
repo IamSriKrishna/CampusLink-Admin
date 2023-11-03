@@ -45,11 +45,12 @@ admin.initializeApp({
 });
 
 app.post("/send-notification", (req, res) => {
-  const { registrationToken, body } = req.body;
+  const { registrationToken, body ,sound} = req.body;
   const message = {
     notification: {
       title: "CAMPUSLINK",
       body: body,
+      sound: sound,
     },
     token: registrationToken,
   };
