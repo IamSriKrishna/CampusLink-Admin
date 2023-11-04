@@ -35,6 +35,10 @@ const studentSchema = mongoose.Schema({
     type: String,
     default: "",
   },
+  certified: {
+    type: Boolean,
+    default: false,
+  },
   fcmtoken: {
     type: String,
     required: true,
