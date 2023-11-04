@@ -154,7 +154,7 @@ const searchStudentByName = async (req, res) => {
 
       const students = await StudentModel.find({ name: { $regex: regex } });
 
-      if (!students || students.length === 0) {
+      if (students.length === 0) {
         return res.status(404).json({ msg: "No students found with the provided name." });
       }
 
@@ -165,6 +165,7 @@ const searchStudentByName = async (req, res) => {
     res.status(500).json({ error: "Something went wrong" });
   }
 };
+
 module.exports = { 
   studentSignIn, 
   studentSignUp, 
