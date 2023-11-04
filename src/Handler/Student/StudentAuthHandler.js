@@ -128,4 +128,49 @@ const UpdateFcmToken = async (req, res) => {
   }
 };
 
-module.exports = { studentSignIn, studentSignUp, StudentSignOut, TokenValid ,UpdateFcmToken};
+const getAllStudentData = async(req,res)=>{
+  try{
+    const student = await StudentModel.find({});
+    if (!student) {
+      console.log("Student not found");
+    } else {
+      console.log(student);
+      res.json(student);
+    }
+  }catch(error){
+    res.status(500).json({ error: error.message });
+  }
+}
+const searchStudentByName = async (req, res) => {
+  try {
+    const { name } = req.query;
+
+    if (!name) {
+      // If no name is provided, return all student data
+      const students = await StudentModel.find({});
+      res.json(students);
+    } else {
+      const regex = new RegExp(name, 'i'); // Case-insensitive regex
+
+      const students = await StudentModel.find({ name: { $regex: regex } });
+
+      if (!students || students.length === 0) {
+        return res.status(404).json({ msg: "No students found with the provided name." });
+      }
+
+      res.json(students);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Something went wrong" });
+  }
+};
+module.exports = { 
+  studentSignIn, 
+  studentSignUp, 
+  StudentSignOut, 
+  TokenValid ,
+  UpdateFcmToken,
+  getAllStudentData,
+  searchStudentByName
+};
