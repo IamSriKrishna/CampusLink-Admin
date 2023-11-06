@@ -1,25 +1,25 @@
 // Packages
 const express = require("express");
 
-// internal Package 
-const auth = require("/CampusLink-Admin/middleware/Auth.js")
-const {accessChat,getChats} = require("../../Handler/chat/ChatAuthHandler")
+// internal Package
+const auth = require("../../../middleware/Auth");
+const { accessChat, getChats } = require("../../Handler/chat/ChatAuthHandler");
 // INIT
 const ChatRouter = express.Router();
 
 // Error Handling Middleware
 ChatRouter.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({ msg: "Something went wrong on the server" });
+  console.error(err.stack);
+  res.status(500).json({ msg: "Something went wrong on the server" });
 });
 // CREATE CHAT
-ChatRouter.post("/create-chat/",auth ,async function (req, res) {
-    await accessChat(req, res);
+ChatRouter.post("/create-chat/", auth, async function (req, res) {
+  await accessChat(req, res);
 });
 
 // Get Chats
-ChatRouter.get("/get-chat/",auth ,async function (req, res) {
-    await getChats(req, res);
+ChatRouter.get("/get-chat/", auth, async function (req, res) {
+  await getChats(req, res);
 });
 
 module.exports = ChatRouter;
