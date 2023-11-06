@@ -29,11 +29,11 @@ const studentSchema = mongoose.Schema({
   },
   Studentclass: {
     type: String,
-    default: "",
+    required: true,
   },
   year: {
     type: String,
-    default: "",
+    required: true,
   },
   certified: {
     type: Boolean,

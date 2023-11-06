@@ -33,7 +33,7 @@ const studentSignIn = async (req, res, next) => {
 
 const studentSignUp = async (req, res, next) => {
   try {
-    const { name, rollno, password, dp, department, year,fcmtoken } = req.body;
+    const { name, rollno, password, dp, department, year,fcmtoken ,Studentclass} = req.body;
 
     const existingStudent = await StudentModel.findOne({ rollno });
 
@@ -43,7 +43,7 @@ const studentSignUp = async (req, res, next) => {
         .json({ msg: "Student With Same Roll Number Already Exist!" });
     }
 
-    if (!name || !rollno || !password || !dp || !department || !year||!fcmtoken) {
+    if (!name || !rollno || !password || !dp || !department || !year|| !fcmtoken|| !Studentclass) {
       return res.status(404).json({ msg: "All fields are mandatory" });
     }
 
@@ -55,7 +55,8 @@ const studentSignUp = async (req, res, next) => {
       dp,
       department,
       year,
-      fcmtoken
+      fcmtoken,
+      Studentclass
     });
     student = await student.save();
     res.status(200).json({ msg: "Student Account Created" });
