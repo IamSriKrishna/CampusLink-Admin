@@ -110,7 +110,7 @@ app.post("/send-notification-toAll", (req, res) => {
 });
 
 //Connecting to the port
-app.listen(process.env.PORT, () => {
+var server = app.listen(process.env.PORT, () => {
   console.log(`Successfully Connected to the Port: ${process.env.PORT}`);
 });
 
