@@ -54,8 +54,10 @@ const accessChat = async (req, res) => {
                 "users",
                 "-password"
             );
+            console.log(FullChat)
             res.status(200).json(FullChat);
         } catch (error) {
+            console.log(error)
             res.status(400).json("Error Creating Chat");
         }
     }
@@ -73,9 +75,12 @@ const getChats = async (req, res) => {
                     path: "latestMessage.sender",
                     select: "name dp rollno",
                 });
+                
+                console.log(results)
                 res.status(200).send(results);
             });
     } catch (error) {
+        console.log(error)
         res.status(500).json("Error Fetching Chat");
 
     }
