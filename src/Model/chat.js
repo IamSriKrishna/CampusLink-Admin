@@ -18,6 +18,7 @@ const chatModel = mongoose.Schema({
         latestMessage: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Message",
+            select: false,
         },
         groupAdmin: { 
             type: mongoose.Schema.Types.ObjectId, 

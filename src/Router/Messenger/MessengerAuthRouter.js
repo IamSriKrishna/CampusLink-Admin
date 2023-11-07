@@ -2,7 +2,8 @@
 const express = require("express");
 
 // internal Package
-const authForMessage = require("../../../middleware/AuthForMessage");
+const {verifyToken} = require("../../../middleware/Authentication");
+const auth = require("../../../middleware/Auth");
 const {
   getAllMessage,
   sendMessage,
@@ -16,11 +17,11 @@ MessengerRouter.use((err, req, res, next) => {
   res.status(500).json({ msg: "Something went wrong on the server" });
 });
 
-MessengerRouter.post("/send-message/", authForMessage, async function (req, res) {
+MessengerRouter.post("/send-message/", verifyToken, async function (req, res) {
   await sendMessage(req, res);
 });
 
-MessengerRouter.get("/get-message/:id", authForMessage, async function (req, res) {
+MessengerRouter.get("/get-message/:id", verifyToken, async function (req, res) {
   await getAllMessage(req, res);
 });
 

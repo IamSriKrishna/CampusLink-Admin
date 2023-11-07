@@ -3,14 +3,11 @@ const User = require("../src/Model/Student");
 
 
 const verifyToken = (req, res, next) => {
-    const authHeader = req.headers.token;
-    if (authHeader) {
-        const token = authHeader.split(" ")[1];
-        jwt.verify(token, process.env.JWT_SEC, async (err, user) => {
+    const token = req.header("x-auth-token");
+    if (token) {
+        jwt.verify(token, "passwordKey", async (err, user) => {
             if (err) res.status(403).json("Invalid token");
             req.user = user;
-            // req.user = await User.findById(user.id);
-            // console.log(req.user)
             next();
         });
     } else {

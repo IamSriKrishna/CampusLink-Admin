@@ -85,18 +85,21 @@ const StudentSignOut = (req, res) => {
 TokenValid = async (req, res) => {
   try {
     const token = req.header("x-auth-token");
-    if (!token) return res.json(false);
-
-    // Check if the token is in the blacklist
-    if (invalidatedTokens.includes(token)) {
+    if (!token) {
       return res.json(false);
     }
 
+
     const verified = jwt.verify(token, "passwordKey");
-    if (!verified) return res.json(false);
+    if (!verified) {
+      return res.json(false);
+    }
 
     const user = await StudentModel.findById(verified.id);
-    if (!user) return res.json(false);
+    if (!user){
+      return res.json(false);
+    }
+    
     res.json(true);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -145,7 +148,7 @@ const getAllStudentData = async(req,res)=>{
 const searchStudentByName = async (req, res) => {
   try {
     const { name } = req.query;
-
+   
     if (!name) {
       // If no name is provided, return all student data
       const students = await StudentModel.find({});
@@ -153,7 +156,9 @@ const searchStudentByName = async (req, res) => {
     } else {
       const regex = new RegExp(name, 'i'); // Case-insensitive regex
 
-      const students = await StudentModel.find({ name: { $regex: regex } });
+      const students = await StudentModel.find({
+        name: { $regex: regex } 
+      });
 
       if (students.length === 0) {
         return res.status(404).json({ msg: "No students found with the provided name." });

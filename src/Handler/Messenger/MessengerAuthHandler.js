@@ -3,7 +3,7 @@ const Message = require("../../Model/message");
 const User = require("../../Model/Student");
 const getAllMessage = async (req, res) => {
     try {
-        const pageSize = 12; // Number of messages per page
+        const pageSize = 100; // Number of messages per page
         const page = req.query.page || 1; // Current page number
 
         // Calculate the number of messages to skip
@@ -53,7 +53,7 @@ const sendMessage = async (req, res) => {
                 select: "name dp rollno",
             });
 
-            await Chat.findByIdAndUpdate(req.body.chatId, { latestMessage: message });
+            await Chat.findById(req.body.chatId);
 
             res.json(message);
         } catch (error) {
