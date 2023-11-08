@@ -56,7 +56,6 @@ FormRouter.post("/kcg/student/form-upload", async (req, res, next) => {
     });
     form = await form.save();
 
-    console.log();
     res.status(200).json({ msg: "Form Uploaded Successfully" });
 
     const deleteJob = schedule.scheduleJob(
@@ -88,7 +87,6 @@ FormRouter.get(
       if (!form) {
         console.log("Form not found");
       } else {
-        console.log(form);
         res.json(form);
       }
     } catch (error) {

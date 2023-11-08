@@ -37,7 +37,7 @@ const accessChat = async (req, res) => {
     if (isChat.length > 0) {
         // Chat exists, send the chat information
         res.status(200).json(isChat[0]);
-        console.log(isChat[0]);
+        console.log(`Already exist${isChat[0]}`);
     } else {
     
         var chatData = {
