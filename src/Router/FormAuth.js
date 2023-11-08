@@ -104,7 +104,6 @@ FormRouter.get("/kcg/student/form", async (req, res, next) => {
     if (!form) {
       console.log("Form not found");
     } else {
-      console.log(form);
       res.json(form);
     }
   } catch (error) {
