@@ -4,7 +4,7 @@ const express = require("express");
 // internal Package
 const {verifyToken} = require("../../../middleware/Authentication");
 const auth = require("../../../middleware/Auth");
-const { accessChat, getChats } = require("../../Handler/chat/ChatAuthHandler");
+const { accessChat, getChats, deleteChat } = require("../../Handler/chat/ChatAuthHandler");
 // INIT
 const ChatRouter = express.Router();
 
@@ -21,6 +21,11 @@ ChatRouter.post("/create-chat/", verifyToken, async function (req, res) {
 // Get Chats
 ChatRouter.get("/get-chat/", verifyToken, async function (req, res) {
   await getChats(req, res);
+});
+
+// Delete Chat
+ChatRouter.delete("/delete-chat/", verifyToken, async function (req, res) {
+  await deleteChat(req, res);
 });
 
 module.exports = ChatRouter;

@@ -84,7 +84,40 @@ const getChats = async (req, res) => {
     }
 
 }
+const deleteChat = async (req, res) => {
+    const { chatId } = req.body;
+
+    if (!chatId) {
+        console.log("ChatId param not sent with the request");
+        return res.status(400).json("ChatId param not sent with the request");
+    }
+
+    try {
+        // Check if the chat exists
+        const chat = await Chat.findOne({ _id: chatId });
+
+        if (!chat) {
+            console.log("Chat not found");
+            return res.status(404).json("Chat not found");
+        }
+
+        // Check if the user has permission to delete the chat (e.g., only the participants)
+        if (chat.users.includes(req.user.id)) {
+            // Delete the chat
+            await Chat.deleteOne({ _id: chatId });
+            console.log("Chat deleted successfully");
+            res.status(200).json("Chat deleted successfully");
+        } else {
+            console.log("User does not have permission to delete the chat");
+            res.status(403).json("You do not have permission to delete this chat");
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json("Error deleting chat");
+    }
+};
 module.exports = {
     accessChat,
-    getChats
+    getChats,
+    deleteChat
 }
