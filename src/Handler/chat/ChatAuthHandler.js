@@ -11,7 +11,7 @@ const accessChat = async (req, res) => {
 
     // Check if a chat with the given userId exists
     var isChat = await Chat.find({
-        chatName: req.user.id, // Ensure chatName is correctly set
+        chatName: req.user.id||userId, // Ensure chatName is correctly set
         isGroupChat: false,
         $and: [
             { users: { $elemMatch: { $eq: req.user.id||userId } } },
