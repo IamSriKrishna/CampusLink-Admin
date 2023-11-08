@@ -85,10 +85,10 @@ app.post("/send-notification-toAll", (req, res) => {
 
     try {
       const response = await admin.messaging().send(message);
-      console.log(`Successfully sent message to ${token}`);
+      //console.log(`Successfully sent message to ${token}`);
       return response;
     } catch (error) {
-      console.error(`Error sending message to ${token}:`, error);
+      //console.error(`Error sending message to ${token}:`, error);
       return null;
     }
   };
@@ -101,8 +101,8 @@ app.post("/send-notification-toAll", (req, res) => {
     const successResponses = responses.filter((response) => response !== null);
     const failureCount = registrationTokens.length - successResponses.length;
 
-    console.log(`Successfully sent ${successResponses.length} messages`);
-    console.log(`Failed to send ${failureCount} messages`);
+    //console.log(`Successfully sent ${successResponses.length} messages`);
+    //console.log(`Failed to send ${failureCount} messages`);
     res.send(`Successfully sent ${successResponses.length} messages`);
   };
 
@@ -122,12 +122,12 @@ const io = require('socket.io')(server, {
 });
 
 io.on("connection", (socket) => {
-  console.log("connected to sockets");
+  //console.log("connected to sockets");
 
   socket.on('setup', (userId) => {
     socket.join(userId);
     socket.broadcast.emit('online-users', userId);
-    console.log(userId);
+    //console.log(userId);
   });
 
   socket.on('typing', (room) => {
@@ -140,7 +140,7 @@ io.on("connection", (socket) => {
 
   socket.on('join chat', (room) => {
     socket.join(room);
-    console.log('User Joined : ' + room);
+    //console.log('User Joined : ' + room);
   });
 
   socket.on('new message', (newMessageReceived) => {
@@ -166,6 +166,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on('disconnect', () => {
-    console.log('User disconnected');
+   // console.log('User disconnected');
   });
 });
