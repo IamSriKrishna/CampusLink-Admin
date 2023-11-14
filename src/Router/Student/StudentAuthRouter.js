@@ -11,6 +11,14 @@ const {
   searchStudentByName
 } = require("../../Handler/Student/StudentAuthHandler");
 
+const {
+  addFollowers,
+  removeFromFollowing,
+  addFollowing,
+  removeFromfollowers,
+  getFollowersCount,
+  getFollowingCount,
+} = require("../FollowingorFollowers/FollowingORFollowers.js")
 // INIT
 const StudentRouter = express.Router();
 
@@ -48,6 +56,70 @@ StudentRouter.get("/kcg/student/getAllStudentData", async function (req, res) {
 //Get All Student 
 StudentRouter.get("/students/search", searchStudentByName, async function (req, res) {
   await searchStudentByName(req, res);
+});
+
+StudentRouter.post("/students/addfollowers", async function (req, res) {
+  const { studentId, followerId } = req.body; // Assuming the IDs are sent in the request body
+  const result = await addFollowers(studentId, followerId);
+  if (result) {
+    res.status(200).json({ message: "Follower added successfully" });
+  } else {
+    res.status(400).json({ message: "Failed to add follower" });
+  }
+});
+
+
+StudentRouter.post("/students/addFollowing", async function (req, res) {
+  const { studentId, followingId } = req.body; // Assuming the IDs are sent in the request body
+  const result = await addFollowing(studentId, followingId);
+  if (result) {
+    res.status(200).json({ message: "Following added successfully" });
+  } else {
+    console.error("Error")
+    res.status(400).json({ message: "Failed to add follower" });
+  }
+});
+
+StudentRouter.post("/students/removeFromFollowing", async function (req, res) {
+  const { studentId, followingId } = req.body; // Assuming the IDs are sent in the request body
+  const removed = await removeFromFollowing(studentId, followingId);
+if (removed) {
+    console.log('Student removed from following successfully.');
+    res.status(200).json({ message: "Student removed from following successfully." });
+} else {
+  
+  console.error("Error")
+  res.status(400).json({ message: "Failed to remove student from following." });
+    console.log('Failed to remove student from following.');
+}
+});
+
+StudentRouter.post("/students/removeFromfollowers", async function (req, res) {
+  const { studentId, followersId } = req.body; // Assuming the IDs are sent in the request body
+  const removed = await removeFromfollowers(studentId, followersId);
+if (removed) {
+    console.log('Student removed from followers successfully.');
+    res.status(200).json({ message: "Student removed from followers successfully." });
+} else {
+  
+  console.error("Error")
+  res.status(400).json({ message: "Failed to remove student from followers." });
+    console.log('Failed to remove student from followers.');
+}
+});
+
+// Endpoint to get total followers count for a student
+StudentRouter.get("/students/followersCount/:studentId", async function (req, res) {
+  const studentId = req.params.studentId;
+  const followersCount = await getFollowersCount(studentId);
+  res.status(200).json({ followersCount });
+});
+
+// Endpoint to get total following count for a student
+StudentRouter.get("/students/followingCount/:studentId", async function (req, res) {
+  const studentId = req.params.studentId;
+  const followingCount = await getFollowingCount(studentId);
+  res.status(200).json({ followingCount });
 });
 
 module.exports = StudentRouter;

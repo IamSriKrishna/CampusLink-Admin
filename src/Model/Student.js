@@ -43,6 +43,8 @@ const studentSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Student' }],
+  following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Student' }],
 });
 
 const Student = mongoose.model("Student", studentSchema);
