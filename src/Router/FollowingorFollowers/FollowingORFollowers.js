@@ -93,11 +93,41 @@ const getFollowingCount = async (studentId) => {
         return 0; // Error occurred
     }
 };
+
+const getFollowers = async (studentId) => {
+    try {
+        const student = await Student.findById(studentId);
+        if (student) {
+            const followers = await Student.find({ _id: { $in: student.followers } });
+            return followers;
+        }
+        return []; // If student not found or has no followers
+    } catch (error) {
+        console.error(error);
+        return []; // Error occurred
+    }
+};
+
+const getFollowing = async (studentId) => {
+    try {
+        const student = await Student.findById(studentId);
+        if (student) {
+            const following = await Student.find({ _id: { $in: student.following } });
+            return following;
+        }
+        return []; // If student not found or is not following anyone
+    } catch (error) {
+        console.error(error);
+        return []; // Error occurred
+    }
+};
 module.exports = {
     addFollowers,
     addFollowing,
     removeFromFollowing,
     removeFromfollowers,
     getFollowersCount,
-    getFollowingCount
+    getFollowingCount,
+    getFollowers,
+    getFollowing
 };

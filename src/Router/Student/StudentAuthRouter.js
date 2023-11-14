@@ -18,6 +18,8 @@ const {
   removeFromfollowers,
   getFollowersCount,
   getFollowingCount,
+  getFollowers,
+  getFollowing
 } = require("../FollowingorFollowers/FollowingORFollowers.js")
 // INIT
 const StudentRouter = express.Router();
@@ -122,4 +124,15 @@ StudentRouter.get("/students/followingCount/:studentId", async function (req, re
   res.status(200).json({ followingCount });
 });
 
+StudentRouter.get("/students/getFollowers/:studentId", async function (req, res) {
+  const studentId = req.params.studentId;
+  const followers = await getFollowers(studentId);
+  res.status(200).json({ followers });
+});
+
+StudentRouter.get("/students/getFollowing/:studentId", async function (req, res) {
+  const studentId = req.params.studentId;
+  const following = await getFollowing(studentId);
+  res.status(200).json({ following });
+});
 module.exports = StudentRouter;
