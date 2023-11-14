@@ -18,7 +18,8 @@ const accessChat = async (req, res) => {
             { users: { $elemMatch: { $eq: userId||req.user.id } } },
         ],
     })
-        .populate("users", "-password");
+        .populate("users", "-password")
+        .populate("latestMessage");
 
     isChat = await User.populate(isChat, {
         path: "latestMessage.sender",
@@ -53,7 +54,7 @@ const accessChat = async (req, res) => {
                 "users",
                 "-password"
             );
-            console.log(FullChat)
+            //console.log(FullChat)
             res.status(200).json(FullChat);
         } catch (error) {
             console.log(error)
@@ -67,18 +68,16 @@ const getChats = async (req, res) => {
         Chat.find({ users: { $elemMatch: { $eq: req.user.id } } })
             .populate("users", "-password")
             .populate("groupAdmin", "-password")
+            .populate("latestMessage")
             .sort({ updatedAt: -1 })
             .then(async (results) => {
                 results = await User.populate(results, {
                     path: "latestMessage.sender",
                     select: "name dp rollno fcmtoken",
                 });
-                
-                console.log(results)
                 res.status(200).send(results);
             });
     } catch (error) {
-        console.log(error)
         res.status(500).json("Error Fetching Chat");
 
     }

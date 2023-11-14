@@ -6,11 +6,11 @@ const getPostData = async (req, res) => {
     if (!form) {
       console.log("Form not found");
     } else {
-      console.log(form);
+      //console.log(form);
       res.json(form);
     }
   } catch (e) {
-    console.log(e)
+    //console.log(e)
     console.error(e);
     res.status(500).json({ error: "Something went wrong" });
   }
