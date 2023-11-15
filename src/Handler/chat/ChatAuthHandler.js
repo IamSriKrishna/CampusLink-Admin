@@ -23,7 +23,7 @@ const accessChat = async (req, res) => {
 
     isChat = await User.populate(isChat, {
         path: "latestMessage.sender",
-        select: "name dp rollno fcmtoken",
+        select: "name dp rollno fcmtoken certified department",
     });
     
     if (!userId) {
@@ -73,7 +73,7 @@ const getChats = async (req, res) => {
             .then(async (results) => {
                 results = await User.populate(results, {
                     path: "latestMessage.sender",
-                    select: "name dp rollno fcmtoken",
+                    select: "name dp rollno fcmtoken certified department",
                 });
                 res.status(200).send(results);
             });

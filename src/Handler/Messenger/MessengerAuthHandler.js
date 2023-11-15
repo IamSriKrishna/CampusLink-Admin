@@ -11,7 +11,7 @@ const getAllMessage = async (req, res) => {
 
         // Find messages with pagination
         var messages = await Message.find({ chat: req.params.id })
-            .populate("sender", "name dp rollno fcmtoken")
+            .populate("sender", "name dp rollno fcmtoken certified department")
             .populate("chat")
             .sort({ createdAt: -1 }) // Sort messages by descending createdAt
             .skip(skipMessages) // Skip the messages based on pagination
@@ -19,7 +19,7 @@ const getAllMessage = async (req, res) => {
 
         messages = await User.populate(messages, {
             path: "chat.users",
-            select: "name dp rollno fcmtoken",
+            select: "name dp rollno fcmtoken certified department",
         });
 
         res.json(messages);
@@ -46,11 +46,11 @@ const sendMessage = async (req, res) => {
         try {
             var message = await Message.create(newMessage);
 
-            message = await message.populate("sender", "name dp rollno fcmtoken");
+            message = await message.populate("sender", "name dp rollno fcmtoken certified department");
             message = await message.populate("chat");
             message = await User.populate(message, {
                 path: "chat.users",
-                select: "name dp rollno fcmtoken",
+                select: "name dp rollno fcmtoken certified department",
             });
 
             await Chat.findById(req.body.chatId);
