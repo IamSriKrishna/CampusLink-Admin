@@ -121,4 +121,31 @@ StudentRouter.put("/kcg/student/update-password", auth, async (req, res) => {
   }
 });
 
+// Update Student Profile Picture
+StudentRouter.put("/students/:id/update-dp", async (req, res) => {
+  const studentId = req.params.id;
+  const { newDP } = req.body; // Assuming the new profile picture URL is sent in the request body
+
+  try {
+    const student = await StudentModel.findById(studentId);
+
+    if (!student) {
+      return res.status(404).json({ error: "Student not found" });
+    }
+
+    // Update the student's profile picture URL
+    student.dp = newDP; // Assuming newDP contains the URL for the new profile picture
+
+    // Save the updated student record
+    await student.save();
+
+    res.json({
+      message: "Profile picture updated successfully",
+      updatedStudent: student,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 module.exports = StudentRouter;
