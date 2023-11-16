@@ -31,7 +31,7 @@ StudentRouter.use((err, req, res, next) => {
 });
 
 //signup endpoint
-StudentRouter.post("/kcg/student/SignUp", async function (req, res) {
+StudentRouter.post("/kcg/student/signup123", async function (req, res) {
   await studentSignUp(req, res);
 });
 //Signin endpoint
