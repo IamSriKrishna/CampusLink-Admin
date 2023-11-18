@@ -15,62 +15,6 @@ StudentRouter.use((err, req, res, next) => {
   res.status(500).json({ msg: "Something went wrong on the server" });
 });
 
-// get user data
-StudentRouter.get("/", auth, async (req, res) => {
-  const user = await StudentModel.findById(req.user);
-  res.json({ ...user._doc, token: req.token });
-});
-
-//Update Credit
-StudentRouter.put("/students/:id/update-credit", async (req, res) => {
-  const studentId = req.params.id;
-  const { credit } = req.body;
-
-  try {
-    const student = await StudentModel.findById(studentId);
-
-    if (!student) {
-      return res.status(404).json({ error: "Student not found" });
-    }
-
-    student.credit -= credit;
-    await student.save();
-
-    res.json({
-      message: "Credit updated successfully",
-      updatedStudent: student,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-//Reset Credit
-StudentRouter.put("/students/:id/update-credit-zero", async (req, res) => {
-  const studentId = req.params.id;
-  const { zero } = req.body;
-
-  try {
-    const student = await StudentModel.findById(studentId);
-
-    if (!student) {
-      return res.status(404).json({ error: "Student not found" });
-    }
-    student.credit = zero;
-
-    await student.save();
-
-    res.json({
-      message: "Credit updated successfully",
-      updatedStudent: student,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
 // Update Password Without old password
 StudentRouter.put("/kcg/student/change-password", auth, async (req, res) => {
   try {
