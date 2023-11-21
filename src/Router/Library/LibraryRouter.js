@@ -1,6 +1,14 @@
 // Packages
 const express = require("express");
 
+const {
+  getBookData,
+  createBookData,
+  editBookData,
+  getBookDataByID,
+  deleteBookDataById,
+} = require("../../Handler/library/LibraryHandler");
+
 // INIT
 const LibraryRouter = express.Router();
 
@@ -11,7 +19,23 @@ LibraryRouter.use((err, req, res, next) => {
 });
 
 LibraryRouter.get("/library", async function (req, res) {
-  await getLibraryData(req, res);
+  await getBookData(req, res);
+});
+
+LibraryRouter.get("/library/:id", async function (req, res, next) {
+  await getBookDataByID(req, res);
+});
+
+LibraryRouter.post("/library", async function (req, res) {
+  await createBookData(req, res);
+});
+
+LibraryRouter.put("/library/:id", async function (req, res) {
+  await editBookData(req, res);
+});
+
+LibraryRouter.delete("/library/:id", async function (req, res) {
+  await deleteBookDataById(req, res);
 });
 
 module.exports = LibraryRouter;
