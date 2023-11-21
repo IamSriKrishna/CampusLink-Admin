@@ -9,6 +9,7 @@ const student = require("./src/Router/Student/StudentAuthRouter");
 const studentRouter = require("./src/Router/StudentAuth");
 const studentData = require("./src/Router/Student/StudentDataRouter");
 const PostDataRouter = require("./src/Router/Post/PostDataRouter");
+const library = require("./src/Router/Library/LibraryRouter");
 const form = require("./src/Router/FormAuth");
 const hello = require("./src/Router/HelloRouter");
 const faculty = require("./src/Router/Faculty/FacultyAuthRouter");
@@ -31,6 +32,7 @@ app.use(studentRouter);
 app.use(PostDataRouter);
 app.use(messenger);
 app.use(chat);
+app.use(library);
 
 //connecting to the database
 mongoose
@@ -49,7 +51,7 @@ admin.initializeApp({
 });
 
 app.post("/send-notification", (req, res) => {
-  const { registrationToken, body} = req.body;
+  const { registrationToken, body } = req.body;
   const message = {
     notification: {
       title: "CAMPUSLINK",
@@ -110,40 +112,40 @@ app.post("/send-notification-toAll", (req, res) => {
 });
 
 //Connecting to the port
-var server = app.listen(process.env.PORT,'0.0.0.0', () => {
+var server = app.listen(process.env.PORT, "0.0.0.0", () => {
   console.log(`Successfully Connected to the Port: ${process.env.PORT}`);
 });
 
-const io = require('socket.io')(server, {
+const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
-    origin: "http://13.126.172.50:3000"
-  }
+    origin: "http://13.126.172.50:3000",
+  },
 });
 
 io.on("connection", (socket) => {
   //console.log("connected to sockets");
 
-  socket.on('setup', (userId) => {
+  socket.on("setup", (userId) => {
     socket.join(userId);
-    socket.broadcast.emit('online-users', userId);
+    socket.broadcast.emit("online-users", userId);
     //console.log(userId);
   });
 
-  socket.on('typing', (room) => {
-    socket.to(room).emit('typing', room);
+  socket.on("typing", (room) => {
+    socket.to(room).emit("typing", room);
   });
 
-  socket.on('stop typing', (room) => {
-    socket.to(room).emit('stop typing', room);
+  socket.on("stop typing", (room) => {
+    socket.to(room).emit("stop typing", room);
   });
 
-  socket.on('join chat', (room) => {
+  socket.on("join chat", (room) => {
     socket.join(room);
     //console.log('User Joined : ' + room);
   });
 
-  socket.on('new message', (newMessageReceived) => {
+  socket.on("new message", (newMessageReceived) => {
     var chat = newMessageReceived.chat;
     var room = chat._id;
 
@@ -161,11 +163,11 @@ io.on("connection", (socket) => {
       return;
     }
 
-    socket.to(room).emit('message received', newMessageReceived);
-    socket.to(room).emit('message sent', "New Message");
+    socket.to(room).emit("message received", newMessageReceived);
+    socket.to(room).emit("message sent", "New Message");
   });
 
-  socket.on('disconnect', () => {
-   // console.log('User disconnected');
+  socket.on("disconnect", () => {
+    // console.log('User disconnected');
   });
 });
