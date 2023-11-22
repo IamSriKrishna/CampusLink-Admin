@@ -7,6 +7,7 @@ const {
   editBookData,
   getBookDataByID,
   deleteBookDataById,
+  getBookDataBySubject,
   getBookDataByBookTitle,
 } = require("../../Handler/library/LibraryHandler");
 
@@ -30,12 +31,13 @@ LibraryRouter.get(
   }
 );
 
-LibraryRouter.get(
-  "/library/filterByBookTitle/:book_title",
-  async function (req, res, next) {
-    await getBookDataByBookTitle(req, res);
-  }
-);
+LibraryRouter.get("/library/filterBySubject", async function (req, res, next) {
+  await getBookDataBySubject(req, res);
+});
+
+LibraryRouter.get("/library/filterByTitle", async function (req, res, next) {
+  await getBookDataByBookTitle(req, res);
+});
 
 LibraryRouter.post("/library/createBookData", async function (req, res) {
   await createBookData(req, res);
