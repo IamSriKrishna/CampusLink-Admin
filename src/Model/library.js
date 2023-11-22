@@ -29,9 +29,19 @@ const librarySchema = mongoose.Schema({
     required: true,
     type: String,
   },
-  borrowers: {
-    type: Number,
-    default: 0,
+  borrowers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Student",
+    },
+  ],
+  photo: {
+    type: String,
+    default: "",
+  },
+  section_image: {
+    type: String,
+    default: "",
   },
 });
 

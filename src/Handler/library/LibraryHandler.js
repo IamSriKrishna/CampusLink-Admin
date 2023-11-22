@@ -44,6 +44,8 @@ const createBookData = async (req, res) => {
       no_of_copies,
       subject,
       borrowers,
+      photo,
+      section_image,
     } = req.body;
     if (
       !access_no ||
@@ -52,7 +54,8 @@ const createBookData = async (req, res) => {
       !publisher ||
       !source_of_supply ||
       !no_of_copies ||
-      !subject
+      !subject ||
+      !section_image
     ) {
       console.log("All fields are mandatory");
       return res.status(400).json({ msg: "All fields are mandatory" });
@@ -67,6 +70,8 @@ const createBookData = async (req, res) => {
       no_of_copies,
       subject,
       borrowers,
+      photo,
+      section_image,
     });
     library = await library.save();
     console.log("All fields are mandatory");
