@@ -23,10 +23,27 @@ const getBookDataByID = async (req, res, next) => {
     const book = await LibraryModel.findById(bookId);
     console.log(book);
     if (!book) {
-      console.log("Book Data not found");
+      res.status(404).json({ error: "Book Data not found" });
     } else {
       res.json(book);
     }
+  } catch (error) {
+    console.error(error); // Log the error for debugging
+    res.status(500).json({ error: "Something went wrong" });
+  }
+};
+
+const getBookDataByBookTitle = async (req, res, next) => {
+  try {
+    const bookTitle = req.params.book_title;
+    console.log(bookTitle);
+    const books = await LibraryModel.find({ book_title: bookTitle });
+
+    if (!books || books.length === 0) {
+      return res.status(404).json({ error: "Book Data not found" });
+    }
+
+    res.status(200).json({ data: books });
   } catch (error) {
     console.error(error); // Log the error for debugging
     res.status(500).json({ error: "Something went wrong" });
@@ -131,4 +148,5 @@ module.exports = {
   editBookData,
   getBookDataByID,
   deleteBookDataById,
+  getBookDataByBookTitle,
 };

@@ -7,6 +7,7 @@ const {
   editBookData,
   getBookDataByID,
   deleteBookDataById,
+  getBookDataByBookTitle,
 } = require("../../Handler/library/LibraryHandler");
 
 // INIT
@@ -18,23 +19,33 @@ LibraryRouter.use((err, req, res, next) => {
   res.status(500).json({ msg: "Something went wrong on the server" });
 });
 
-LibraryRouter.get("/library", async function (req, res) {
+LibraryRouter.get("/library/getAllBookData", async function (req, res) {
   await getBookData(req, res);
 });
 
-LibraryRouter.get("/library/:id", async function (req, res, next) {
-  await getBookDataByID(req, res);
-});
+LibraryRouter.get(
+  "/library/filterByBookId/:id",
+  async function (req, res, next) {
+    await getBookDataByID(req, res);
+  }
+);
 
-LibraryRouter.post("/library", async function (req, res) {
+LibraryRouter.get(
+  "/library/filterByBookTitle/:book_title",
+  async function (req, res, next) {
+    await getBookDataByBookTitle(req, res);
+  }
+);
+
+LibraryRouter.post("/library/createBookData", async function (req, res) {
   await createBookData(req, res);
 });
 
-LibraryRouter.put("/library/:id", async function (req, res) {
+LibraryRouter.put("/library/updateByBookId/:id", async function (req, res) {
   await editBookData(req, res);
 });
 
-LibraryRouter.delete("/library/:id", async function (req, res) {
+LibraryRouter.delete("/library/deleteByBookId/:id", async function (req, res) {
   await deleteBookDataById(req, res);
 });
 
