@@ -9,6 +9,7 @@ const {
   deleteBookDataById,
   getBookDataBySubject,
   getBookDataByBookTitle,
+  searchLibraryByName
 } = require("../../Handler/library/LibraryHandler");
 
 // INIT
@@ -50,5 +51,11 @@ LibraryRouter.put("/library/updateByBookId/:id", async function (req, res) {
 LibraryRouter.delete("/library/deleteByBookId/:id", async function (req, res) {
   await deleteBookDataById(req, res);
 });
-
+LibraryRouter.get(
+  "/library/search",
+  searchLibraryByName,
+  async function (req, res) {
+    await searchLibraryByName(req, res);
+  }
+);
 module.exports = LibraryRouter;
