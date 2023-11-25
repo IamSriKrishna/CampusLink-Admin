@@ -23,7 +23,23 @@ const getAllStudentData = async (req, res) => {
   }
 };
 
+const getAllStudentsNotify = async (req, res, next) => {
+  try {
+    const students = await StudentModel.find().select("name rollno fcmtoken");
+
+    if (!students || students.length === 0) {
+      return res.status(404).json({ error: "Students not found" });
+    }
+
+    res.status(200).json({ data: students });
+  } catch (error) {
+    console.error(error); // Log the error for debugging
+    res.status(500).json({ error: "Something went wrong" });
+  }
+};
+
 module.exports = {
   getUserData,
   getAllStudentData,
+  getAllStudentsNotify,
 };
