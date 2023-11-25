@@ -65,6 +65,32 @@ const getBookDataByBookTitle = async (req, res, next) => {
   }
 };
 
+const searchLibraryByName = async (req, res) => {
+  try {
+    const { book_title } = req.query;
+   
+    if (!book_title) {
+      // If no name is provided, return all student data
+      const library = await LibraryModel.find({});
+      res.json(library);
+    } else {
+      const regex = new RegExp(book_title, 'i'); // Case-insensitive regex
+
+      const library = await LibraryModel.find({
+        book_title: { $regex: regex } 
+      });
+
+      if (library.length === 0) {
+        return res.status(404).json({ msg: "No library found with the provided name." });
+      }
+
+      res.json(library);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Something went wrong" });
+  }
+};
 const createBookData = async (req, res) => {
   try {
     const {
@@ -165,4 +191,5 @@ module.exports = {
   deleteBookDataById,
   getBookDataBySubject,
   getBookDataByBookTitle,
+  searchLibraryByName
 };
