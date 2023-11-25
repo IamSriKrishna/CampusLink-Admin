@@ -1,7 +1,10 @@
 //Handlers
 const express = require("express");
 
-const { getUserData } = require("../../Handler/Student/StudentDataHandler");
+const {
+  getUserData,
+  getAllStudentData,
+} = require("../../Handler/Student/StudentDataHandler");
 // Router
 const auth = require("../../../middleware/Auth");
 
@@ -10,8 +13,11 @@ const StudentRouter = express.Router();
 
 // get user data
 StudentRouter.get("/", auth, async function (req, res) {
-  // return res.json(msg: "Hello")
   await getUserData({ user: req.user, token: req.token }, res);
+});
+
+StudentRouter.get("/kcg/students", auth, async function (req, res) {
+  await getAllStudentData({ user: req.user, token: req.token }, res);
 });
 
 module.exports = StudentRouter;
